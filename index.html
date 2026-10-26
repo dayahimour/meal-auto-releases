@@ -4,109 +4,153 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#2E7D32">
+<meta name="theme-color" content="#F6F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0B" media="(prefers-color-scheme: dark)">
 <title>حجز الوجبات — تحميل</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="logo.png">
 <style>
   :root {
-    --bg: #F4F7F4; --card: #FFFFFF; --text: #16221A; --muted: #5C6B60;
-    --primary: #2E7D32; --on-primary: #FFFFFF; --border: rgba(0,0,0,.10);
-    --soft: #E7F1E7; --shadow: 0 8px 28px rgba(20,60,30,.10);
+    --bg: #F6F8F6; --text: #101A13; --muted: #5B6A60; --line: rgba(16,26,19,.09);
+    --panel: #FFFFFF; --accent: #2E7D32; --accent-2: #43A047; --on-accent: #FFFFFF;
+    --glow: rgba(67,160,71,.20); --chip: rgba(46,125,50,.10); --shadow: 0 10px 30px rgba(20,60,30,.10);
+    --btn-shadow: 0 10px 24px rgba(46,125,50,.32);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0F0F0F; --card: #181818; --text: #D6D6D6; --muted: #9A9A9A;
-      --primary: #D4D4D4; --on-primary: #111111; --border: rgba(255,255,255,.14);
-      --soft: #232323; --shadow: 0 8px 28px rgba(0,0,0,.5);
+      --bg: #0B0B0B; --text: #E7E7E7; --muted: #9A9A9A; --line: rgba(255,255,255,.10);
+      --panel: #151515; --accent: #E2E2E2; --accent-2: #CFCFCF; --on-accent: #111111;
+      --glow: rgba(255,255,255,.07); --chip: rgba(255,255,255,.08); --shadow: 0 10px 30px rgba(0,0,0,.55);
+      --btn-shadow: 0 10px 24px rgba(0,0,0,.5);
     }
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   body {
-    margin: 0; background: var(--bg); color: var(--text);
+    margin: 0; min-height: 100vh; color: var(--text); background: var(--bg);
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif;
-    line-height: 1.7; min-height: 100vh;
-    padding: max(20px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
+    line-height: 1.7; position: relative; overflow-x: hidden;
+    padding: max(18px, env(safe-area-inset-top)) 20px max(32px, env(safe-area-inset-bottom));
   }
-  .wrap { max-width: 440px; margin: 0 auto; }
-  .langs { display: flex; justify-content: flex-start; gap: 4px; font-size: 13px; margin-bottom: 8px; }
+  body::before {            /* هالة هادئة خلف الأيقونة */
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 420px; pointer-events: none;
+    background: radial-gradient(60% 70% at 50% 0%, var(--glow), transparent 70%);
+  }
+  .wrap { position: relative; max-width: 420px; margin: 0 auto; }
+
+  .langs { display: flex; gap: 2px; font-size: 13px; justify-content: flex-start; }
   .langs button {
-    font: inherit; color: var(--muted); background: none; border: 0; padding: 4px 8px;
+    font: inherit; color: var(--muted); background: none; border: 0; padding: 4px 10px;
     border-radius: 999px; cursor: pointer;
   }
-  .langs button[aria-pressed="true"] { color: var(--text); background: var(--soft); font-weight: 700; }
-  header { text-align: center; padding: 14px 0 6px; }
-  .logo { width: 104px; height: 104px; border-radius: 24px; box-shadow: var(--shadow); display: block; margin: 0 auto 14px; }
-  h1 { font-size: 27px; line-height: 1.3; margin: 0 0 6px; font-weight: 800; }
-  .tagline { margin: 0 auto; color: var(--muted); font-size: 15px; max-width: 320px; }
-  .meta {
-    display: inline-block; margin-top: 14px; padding: 4px 14px; border-radius: 999px;
-    background: var(--soft); font-size: 13px; color: var(--muted); direction: ltr; unicode-bidi: isolate;
-  }
-  .card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 22px;
-    padding: 18px; margin-top: 18px; box-shadow: var(--shadow);
-  }
+  .langs button[aria-pressed="true"] { color: var(--text); background: var(--chip); font-weight: 700; }
+
+  header { text-align: center; padding: 34px 0 6px; animation: rise .55s ease both; }
+  .logo { width: 112px; height: 112px; border-radius: 26px; display: block; margin: 0 auto 20px; box-shadow: var(--shadow); }
+  h1 { font-size: 30px; line-height: 1.25; margin: 0; font-weight: 800; letter-spacing: -.2px; }
+  .tagline { margin: 10px auto 0; color: var(--muted); font-size: 16px; max-width: 300px; }
+
+  .cta { margin-top: 30px; animation: rise .55s .08s ease both; }
   .btn {
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-    min-height: 62px; border-radius: 18px; text-decoration: none; font-size: 19px; font-weight: 800;
-    background: var(--primary); color: var(--on-primary); padding: 10px 16px; text-align: center;
+    display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+    height: 58px; border-radius: 18px; text-decoration: none; font-size: 18px; font-weight: 800;
+    color: var(--on-accent); background: linear-gradient(180deg, var(--accent-2), var(--accent));
+    box-shadow: var(--btn-shadow); transition: transform .12s ease;
   }
-  .btn small { font-size: 12.5px; font-weight: 500; opacity: .9; }
   .btn:active { transform: scale(.985); }
-  .alt { display: block; text-align: center; margin-top: 12px; font-size: 13.5px; color: var(--muted); }
-  .alt a { color: var(--text); font-weight: 700; text-underline-offset: 3px; }
-  h2 { font-size: 15.5px; margin: 0 0 10px; font-weight: 800; }
-  ol { margin: 0; padding: 0; list-style: none; counter-reset: s; }
-  ol li { counter-increment: s; position: relative; padding-inline-start: 38px; margin-bottom: 12px; font-size: 14.5px; }
-  ol li::before {
-    content: counter(s); position: absolute; inset-inline-start: 0; top: 1px; width: 26px; height: 26px;
-    border-radius: 50%; background: var(--soft); display: grid; place-items: center; font-weight: 800; font-size: 13px;
+  .btn svg { width: 22px; height: 22px; flex: none; }
+  .fine { margin: 12px 0 0; text-align: center; font-size: 13px; color: var(--muted); }
+  .meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 0; }
+  .meta span { unicode-bidi: isolate; }
+  .meta span + span::before { content: "·"; margin: 0 8px; opacity: .6; }
+  .fine a { color: var(--text); font-weight: 700; text-underline-offset: 3px; }
+  .notice {
+    display: none; margin-top: 16px; padding: 10px 14px; border-radius: 14px; font-size: 13.5px;
+    text-align: center; background: var(--chip);
   }
-  ol li:last-child { margin-bottom: 0; }
-  .notes { font-size: 14px; color: var(--text); margin: 0; white-space: pre-line; }
-  .tip { font-size: 13px; color: var(--muted); margin: 10px 4px 0; }
-  .notice { display: none; background: var(--soft); border-radius: 14px; padding: 10px 14px; font-size: 13.5px; margin-top: 16px; text-align: center; }
-  footer { margin-top: 22px; text-align: center; font-size: 12.5px; color: var(--muted); }
-  footer p { margin: 0 0 6px; }
+
+  .feats { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; animation: rise .55s .16s ease both; }
+  .feats li { display: flex; gap: 14px; align-items: flex-start; }
+  .ico {
+    flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--chip);
+    display: grid; place-items: center; color: var(--text);
+  }
+  .ico svg { width: 21px; height: 21px; }
+  .feats b { display: block; font-size: 15px; line-height: 1.5; }
+  .feats span { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+  .panel {
+    margin-top: 32px; border: 1px solid var(--line); background: var(--panel); border-radius: 22px;
+    padding: 20px; animation: rise .55s .24s ease both;
+  }
+  h2 { font-size: 15px; margin: 0 0 14px; font-weight: 800; }
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 14px; }
+  ol li { counter-increment: s; position: relative; padding-inline-start: 40px; font-size: 14.5px; }
+  ol li::before {
+    content: counter(s); position: absolute; inset-inline-start: 0; top: 0; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--chip); display: grid; place-items: center; font-weight: 800; font-size: 13px;
+  }
+  .tip { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  details { margin-top: 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+  summary {
+    list-style: none; cursor: pointer; padding: 15px 18px; font-weight: 800; font-size: 14.5px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 20px; color: var(--muted); line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  .notes { margin: 0; padding: 0 18px 16px; font-size: 14px; white-space: pre-line; color: var(--text); }
+
+  footer { margin-top: 30px; text-align: center; font-size: 12.5px; color: var(--muted); line-height: 1.8; }
   .hide { display: none !important; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav class="langs" aria-label="language">
-    <button data-l="ar">العربية</button><button data-l="fr">Français</button><button data-l="en">English</button>
+    <button data-l="ar">العربية</button><button data-l="fr">FR</button><button data-l="en">EN</button>
   </nav>
 
   <header>
-    <img class="logo" src="logo.png" width="104" height="104" alt="">
+    <img class="logo" src="logo.png" width="112" height="112" alt="">
     <h1 id="name"></h1>
     <p class="tagline" id="tagline"></p>
-    <span class="meta" id="meta"></span>
   </header>
 
   <div class="notice" id="notice"></div>
 
-  <main>
-    <section class="card">
-      <a class="btn" id="dl" href="#"><span id="dlText"></span><small id="dlSub"></small></a>
-      <span class="alt" id="alt"></span>
-    </section>
+  <section class="cta">
+    <a class="btn" id="dl" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>
+      <span id="dlText"></span>
+    </a>
+    <p class="fine meta"><span id="mV"></span><span id="mS"></span><span id="mB"></span><span id="mD"></span></p>
+    <p class="fine" id="alt"></p>
+  </section>
 
-    <section class="card">
-      <h2 id="stepsT"></h2>
-      <ol><li id="s1"></li><li id="s2"></li><li id="s3"></li></ol>
-    </section>
+  <ul class="feats">
+    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+      <div><b id="f1t"></b><span id="f1d"></span></div></li>
+    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.5 3.1 8 7.5 9.5 4.4-1.5 7.5-5 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg></span>
+      <div><b id="f2t"></b><span id="f2d"></span></div></li>
+    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.6L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.3 4.6L20 16"/><path d="M20 20v-4h-4"/></svg></span>
+      <div><b id="f3t"></b><span id="f3d"></span></div></li>
+  </ul>
 
-    <section class="card" id="newCard">
-      <h2 id="newT"></h2>
-      <p class="notes" id="notes"></p>
-    </section>
-
+  <section class="panel">
+    <h2 id="stepsT"></h2>
+    <ol><li id="s1"></li><li id="s2"></li><li id="s3"></li></ol>
     <p class="tip" id="tgTip"></p>
-    <p class="tip" id="updTip"></p>
-  </main>
+  </section>
+
+  <details id="newCard">
+    <summary id="newT"></summary>
+    <p class="notes" id="notes"></p>
+  </details>
 
   <footer><p id="foot"></p></footer>
 </div>
@@ -121,51 +165,54 @@ window.RELEASE = {"build": 4, "versionName": "1.2.1", "minBuild": 4, "notes": {"
   var T = {
     ar: {
       name: "حجز الوجبات", tagline: "يحجز وجباتك الجامعية تلقائياً كل ليلة",
-      meta: "v{v} · {mb} MB · {d}", dl: "تحميل التطبيق",
-      sub64: "نسخة 64 بت — لمعظم الهواتف", sub32: "نسخة 32 بت — للهواتف الأقدم",
-      alt64: "هاتف قديم أو لم يُثبَّت؟ حمّل <a href=\"{u}\">نسخة 32 بت</a>",
-      alt32: "هاتفك حديث؟ حمّل <a href=\"{u}\">نسخة 64 بت</a> (أسرع)",
+      dl: "تحميل التطبيق", ver: "الإصدار {v}", b64: "64 بت", b32: "32 بت",
+      alt64: "هاتف قديم أو لم يُثبَّت؟ <a href=\"{u}\">حمّل نسخة 32 بت</a>",
+      alt32: "هاتفك حديث؟ <a href=\"{u}\">حمّل نسخة 64 بت</a> (أسرع)",
+      f1t: "حجز تلقائي كل ليلة", f1d: "يعمل في الخلفية حتى والتطبيق مغلق.",
+      f2t: "بياناتك على هاتفك", f2d: "كلمة المرور مشفّرة على هاتفك، وتُرسَل إلى الخدمة الرسمية فقط.",
+      f3t: "يتحدّث تلقائياً", f3d: "تظهر بطاقة تحديث داخل التطبيق عند صدور إصدار جديد.",
       stepsT: "كيف أثبّته؟",
-      s1: "حمّل الملف. إن ظهر تحذير من المتصفح فاختر «الاحتفاظ» أو «تنزيل على أي حال».",
-      s2: "افتح الملف المحمّل، واسمح بالتثبيت من هذا المصدر حين يطلب هاتفك، ثم اضغط «تثبيت».",
+      s1: "حمّل الملف. إن حذّرك المتصفح فاختر «الاحتفاظ» أو «تنزيل على أي حال».",
+      s2: "افتح الملف، واسمح بالتثبيت من هذا المصدر حين يطلب هاتفك، ثم اضغط «تثبيت».",
       s3: "افتح «حجز الوجبات»، اقرأ الشروط ووافق، ثم أضف حسابك.",
-      newT: "ما الجديد",
       tgTip: "من تيليغرام؟ إن لم يبدأ التنزيل فافتح الرابط في Chrome.",
-      updTip: "بعد التثبيت يتحدّث التطبيق من تلقاء نفسه عند صدور إصدار جديد.",
+      newT: "ما الجديد",
       notAndroid: "هذا التطبيق لهواتف أندرويد فقط. افتح هذه الصفحة من هاتفك.",
-      foot: "تطبيق مستقل غير رسمي. لا يتبع وزارة التعليم العالي ولا الديوان الوطني للخدمات الجامعية ولا يمثّلهما."
+      foot: "تطبيق مستقل غير رسمي، لا يتبع وزارة التعليم العالي ولا الديوان الوطني للخدمات الجامعية ولا يمثّلهما."
     },
     fr: {
       name: "Réservation des repas", tagline: "Réserve vos repas universitaires automatiquement chaque nuit",
-      meta: "v{v} · {mb} MB · {d}", dl: "Télécharger l’application",
-      sub64: "Version 64 bits — la plupart des téléphones", sub32: "Version 32 bits — téléphones plus anciens",
-      alt64: "Téléphone ancien ou installation impossible ? Téléchargez la <a href=\"{u}\">version 32 bits</a>",
-      alt32: "Téléphone récent ? Téléchargez la <a href=\"{u}\">version 64 bits</a> (plus rapide)",
+      dl: "Télécharger l’application", ver: "Version {v}", b64: "64 bits", b32: "32 bits",
+      alt64: "Téléphone ancien ou installation impossible ? <a href=\"{u}\">Version 32 bits</a>",
+      alt32: "Téléphone récent ? <a href=\"{u}\">Version 64 bits</a> (plus rapide)",
+      f1t: "Réservation automatique chaque nuit", f1d: "Fonctionne en arrière-plan, même application fermée.",
+      f2t: "Vos données restent sur votre téléphone", f2d: "Mot de passe chiffré sur votre téléphone, envoyé uniquement au service officiel.",
+      f3t: "Mise à jour automatique", f3d: "Une carte de mise à jour s’affiche dans l’application à chaque nouvelle version.",
       stepsT: "Comment l’installer ?",
       s1: "Téléchargez le fichier. Si le navigateur avertit, choisissez « Conserver » ou « Télécharger quand même ».",
-      s2: "Ouvrez le fichier, autorisez l’installation depuis cette source quand le téléphone le demande, puis appuyez sur « Installer ».",
+      s2: "Ouvrez le fichier, autorisez l’installation depuis cette source quand le téléphone le demande, puis « Installer ».",
       s3: "Ouvrez « Réservation des repas », lisez les conditions, acceptez, puis ajoutez votre compte.",
-      newT: "Nouveautés",
       tgTip: "Depuis Telegram ? Si le téléchargement ne démarre pas, ouvrez le lien dans Chrome.",
-      updTip: "Après l’installation, l’application se met à jour toute seule à chaque nouvelle version.",
+      newT: "Nouveautés",
       notAndroid: "Cette application est pour Android uniquement. Ouvrez cette page depuis votre téléphone.",
-      foot: "Application indépendante, non officielle. Elle n’est ni affiliée ni représentative du ministère de l’Enseignement supérieur ou de l’Office national des œuvres universitaires."
+      foot: "Application indépendante et non officielle, ni affiliée ni représentative du ministère de l’Enseignement supérieur ou de l’Office national des œuvres universitaires."
     },
     en: {
       name: "Meal Booking", tagline: "Books your university meals automatically every night",
-      meta: "v{v} · {mb} MB · {d}", dl: "Download the app",
-      sub64: "64-bit version — most phones", sub32: "32-bit version — older phones",
-      alt64: "Old phone or it won’t install? Get the <a href=\"{u}\">32-bit version</a>",
-      alt32: "Newer phone? Get the <a href=\"{u}\">64-bit version</a> (faster)",
+      dl: "Download the app", ver: "Version {v}", b64: "64-bit", b32: "32-bit",
+      alt64: "Old phone or it won’t install? <a href=\"{u}\">Get the 32-bit version</a>",
+      alt32: "Newer phone? <a href=\"{u}\">Get the 64-bit version</a> (faster)",
+      f1t: "Automatic booking every night", f1d: "Runs in the background, even when the app is closed.",
+      f2t: "Your data stays on your phone", f2d: "Your password is encrypted on your phone and sent only to the official service.",
+      f3t: "Updates itself", f3d: "An update card appears inside the app whenever a new version is out.",
       stepsT: "How to install",
       s1: "Download the file. If the browser warns you, choose “Keep” or “Download anyway”.",
-      s2: "Open the downloaded file, allow installs from this source when your phone asks, then tap “Install”.",
+      s2: "Open the file, allow installs from this source when your phone asks, then tap “Install”.",
       s3: "Open “Meal Booking”, read the terms, accept, then add your account.",
-      newT: "What’s new",
       tgTip: "From Telegram? If the download doesn’t start, open the link in Chrome.",
-      updTip: "After installing, the app updates itself whenever a new version is released.",
+      newT: "What’s new",
       notAndroid: "This app is for Android phones only. Open this page from your phone.",
-      foot: "Independent, unofficial app. It is not affiliated with or representing the Ministry of Higher Education or the National Office of University Services."
+      foot: "Independent, unofficial app — not affiliated with or representing the Ministry of Higher Education or the National Office of University Services."
     }
   };
 
@@ -186,18 +233,20 @@ window.RELEASE = {"build": 4, "versionName": "1.2.1", "minBuild": 4, "notes": {"
   }
 
   function render() {
-    var t = T[lang], main = (bits === 32 ? a32 : a64), alt = (bits === 32 ? a64 : a32);
+    var t = T[lang], is32 = bits === 32, main = is32 ? a32 : a64, alt = is32 ? a64 : a32;
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
     document.title = t.name + " — " + t.dl;
     $("name").textContent = t.name;
     $("tagline").textContent = t.tagline;
-    $("meta").textContent = t.meta.replace("{v}", R.versionName).replace("{mb}", mb(main.size)).replace("{d}", fmtDate(R.released));
     $("dlText").textContent = t.dl;
-    $("dlSub").textContent = bits === 32 ? t.sub32 : t.sub64;
     $("dl").href = main.url;
-    $("alt").innerHTML = (bits === 32 ? t.alt32 : t.alt64).replace("{u}", alt.url);
-    ["stepsT", "s1", "s2", "s3", "newT", "tgTip", "updTip", "foot"].forEach(function (k) { $(k).textContent = t[k]; });
+    $("mV").textContent = t.ver.replace("{v}", R.versionName);
+    $("mS").textContent = mb(main.size) + " MB";
+    $("mB").textContent = is32 ? t.b32 : t.b64;
+    $("mD").textContent = fmtDate(R.released);
+    $("alt").innerHTML = (is32 ? t.alt32 : t.alt64).replace("{u}", alt.url);
+    ["f1t", "f1d", "f2t", "f2d", "f3t", "f3d", "stepsT", "s1", "s2", "s3", "tgTip", "newT", "foot"].forEach(function (k) { $(k).textContent = t[k]; });
     var notes = (R.notes && (R.notes[lang] || R.notes.ar)) || "";
     $("notes").textContent = notes;
     $("newCard").classList.toggle("hide", !notes);
@@ -217,7 +266,7 @@ window.RELEASE = {"build": 4, "versionName": "1.2.1", "minBuild": 4, "notes": {"
   }
   window.__bitsFromString = bitsFromString;
 
-  // 64 أم 32 بت؟ userAgentData (كروم) أدقّ، ثم navigator.platform: «aarch64» ⇒ 64، «armv7l/armv8l» ⇒ 32.
+  // 64 أم 32 بت؟ userAgentData (كروم) أدقّ، ثم navigator.platform.
   function detect() {
     var done = function (b) { bits = b; render(); };
     var fallback = function () {
