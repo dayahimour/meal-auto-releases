@@ -69,15 +69,17 @@
     text-align: center; background: var(--chip);
   }
 
-  .feats { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 18px; animation: rise .55s .16s ease both; }
-  .feats li { display: flex; gap: 14px; align-items: flex-start; }
-  .ico {
-    flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--chip);
-    display: grid; place-items: center; color: var(--text);
+  .feats {
+    list-style: none; margin: 38px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; animation: rise .55s .16s ease both;
   }
-  .ico svg { width: 21px; height: 21px; }
-  .feats b { display: block; font-size: 15px; line-height: 1.5; }
-  .feats span { display: block; font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+  .feats li { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+  .ico {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--chip); color: var(--text);
+    display: grid; place-items: center;
+  }
+  .ico svg { width: 24px; height: 24px; display: block; }
+  .feats b { font-size: 13px; line-height: 1.5; font-weight: 700; max-width: 108px; text-wrap: balance; }
 
   .panel {
     margin-top: 32px; border: 1px solid var(--line); background: var(--panel); border-radius: 22px;
@@ -90,18 +92,6 @@
     content: counter(s); position: absolute; inset-inline-start: 0; top: 0; width: 28px; height: 28px;
     border-radius: 50%; background: var(--chip); display: grid; place-items: center; font-weight: 800; font-size: 13px;
   }
-  .tip { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
-
-  details { margin-top: 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
-  summary {
-    list-style: none; cursor: pointer; padding: 15px 18px; font-weight: 800; font-size: 14.5px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; font-size: 20px; color: var(--muted); line-height: 1; }
-  details[open] summary::after { content: "–"; }
-  .notes { margin: 0; padding: 0 18px 16px; font-size: 14px; white-space: pre-line; color: var(--text); }
-
   footer { margin-top: 30px; text-align: center; font-size: 12.5px; color: var(--muted); line-height: 1.8; }
   .hide { display: none !important; }
 
@@ -128,29 +118,23 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg>
       <span id="dlText"></span>
     </a>
-    <p class="fine meta"><span id="mV"></span><span id="mS"></span><span id="mB"></span><span id="mD"></span></p>
+    <p class="fine meta"><span id="mV"></span><span id="mS"></span></p>
     <p class="fine" id="alt"></p>
   </section>
 
   <ul class="feats">
-    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
-      <div><b id="f1t"></b><span id="f1d"></span></div></li>
-    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.5 3.1 8 7.5 9.5 4.4-1.5 7.5-5 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg></span>
-      <div><b id="f2t"></b><span id="f2d"></span></div></li>
-    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.6L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.3 4.6L20 16"/><path d="M20 20v-4h-4"/></svg></span>
-      <div><b id="f3t"></b><span id="f3d"></span></div></li>
+    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.7 6.7 0 0 0 10.7 10.7z"/></svg></span>
+      <b id="f1t"></b></li>
+    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5.2c0 4.3 2.9 7.7 7 9.3 4.1-1.6 7-5 7-9.3V6z"/><path d="m8.8 12 2.3 2.3 4.2-4.4"/></svg></span>
+      <b id="f2t"></b></li>
+    <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 0-14-5.3L4.5 8.3"/><path d="M4.5 3.8v4.5H9"/><path d="M4 12a8 8 0 0 0 14 5.3l1.5-1.6"/><path d="M19.5 20.2v-4.5H15"/></svg></span>
+      <b id="f3t"></b></li>
   </ul>
 
   <section class="panel">
     <h2 id="stepsT"></h2>
     <ol><li id="s1"></li><li id="s2"></li><li id="s3"></li></ol>
-    <p class="tip" id="tgTip"></p>
   </section>
-
-  <details id="newCard">
-    <summary id="newT"></summary>
-    <p class="notes" id="notes"></p>
-  </details>
 
   <footer><p id="foot"></p></footer>
 </div>
@@ -165,54 +149,42 @@ window.RELEASE = {"build": 4, "versionName": "1.2.1", "minBuild": 4, "notes": {"
   var T = {
     ar: {
       name: "حجز الوجبات", tagline: "يحجز وجباتك الجامعية تلقائياً كل ليلة",
-      dl: "تحميل التطبيق", ver: "الإصدار {v}", b64: "64 بت", b32: "32 بت",
-      alt64: "هاتف قديم أو لم يُثبَّت؟ <a href=\"{u}\">حمّل نسخة 32 بت</a>",
-      alt32: "هاتفك حديث؟ <a href=\"{u}\">حمّل نسخة 64 بت</a> (أسرع)",
-      f1t: "حجز تلقائي كل ليلة", f1d: "يعمل في الخلفية حتى والتطبيق مغلق.",
-      f2t: "بياناتك على هاتفك", f2d: "كلمة المرور مشفّرة على هاتفك، وتُرسَل إلى الخدمة الرسمية فقط.",
-      f3t: "يتحدّث تلقائياً", f3d: "تظهر بطاقة تحديث داخل التطبيق عند صدور إصدار جديد.",
-      stepsT: "كيف أثبّته؟",
-      s1: "حمّل الملف. إن حذّرك المتصفح فاختر «الاحتفاظ» أو «تنزيل على أي حال».",
-      s2: "افتح الملف، واسمح بالتثبيت من هذا المصدر حين يطلب هاتفك، ثم اضغط «تثبيت».",
-      s3: "افتح «حجز الوجبات»، اقرأ الشروط ووافق، ثم أضف حسابك.",
-      tgTip: "من تيليغرام؟ إن لم يبدأ التنزيل فافتح الرابط في Chrome.",
-      newT: "ما الجديد",
+      dl: "تحميل التطبيق", ver: "الإصدار {v}",
+      alt64: "لم يُثبَّت؟ <a href=\"{u}\">حمّل نسخة 32 بت</a>",
+      alt32: "هاتفك حديث؟ <a href=\"{u}\">حمّل نسخة 64 بت</a>",
+      f1t: "حجز تلقائي كل ليلة", f2t: "بياناتك على هاتفك", f3t: "يتحدّث تلقائياً",
+      stepsT: "التثبيت",
+      s1: "حمّل الملف. إن حذّرك المتصفح فاختر «الاحتفاظ».",
+      s2: "افتحه واسمح بالتثبيت من هذا المصدر، ثم اضغط «تثبيت».",
+      s3: "افتح التطبيق ووافق على الشروط، ثم أضف حسابك.",
       notAndroid: "هذا التطبيق لهواتف أندرويد فقط. افتح هذه الصفحة من هاتفك.",
-      foot: "تطبيق مستقل غير رسمي، لا يتبع وزارة التعليم العالي ولا الديوان الوطني للخدمات الجامعية ولا يمثّلهما."
+      foot: "تطبيق مستقل غير رسمي."
     },
     fr: {
       name: "Réservation des repas", tagline: "Réserve vos repas universitaires automatiquement chaque nuit",
-      dl: "Télécharger l’application", ver: "Version {v}", b64: "64 bits", b32: "32 bits",
-      alt64: "Téléphone ancien ou installation impossible ? <a href=\"{u}\">Version 32 bits</a>",
-      alt32: "Téléphone récent ? <a href=\"{u}\">Version 64 bits</a> (plus rapide)",
-      f1t: "Réservation automatique chaque nuit", f1d: "Fonctionne en arrière-plan, même application fermée.",
-      f2t: "Vos données restent sur votre téléphone", f2d: "Mot de passe chiffré sur votre téléphone, envoyé uniquement au service officiel.",
-      f3t: "Mise à jour automatique", f3d: "Une carte de mise à jour s’affiche dans l’application à chaque nouvelle version.",
-      stepsT: "Comment l’installer ?",
-      s1: "Téléchargez le fichier. Si le navigateur avertit, choisissez « Conserver » ou « Télécharger quand même ».",
-      s2: "Ouvrez le fichier, autorisez l’installation depuis cette source quand le téléphone le demande, puis « Installer ».",
-      s3: "Ouvrez « Réservation des repas », lisez les conditions, acceptez, puis ajoutez votre compte.",
-      tgTip: "Depuis Telegram ? Si le téléchargement ne démarre pas, ouvrez le lien dans Chrome.",
-      newT: "Nouveautés",
+      dl: "Télécharger l’application", ver: "Version {v}",
+      alt64: "Installation impossible ? <a href=\"{u}\">Version 32 bits</a>",
+      alt32: "Téléphone récent ? <a href=\"{u}\">Version 64 bits</a>",
+      f1t: "Réservation automatique chaque nuit", f2t: "Données sur votre téléphone", f3t: "Mises à jour automatiques",
+      stepsT: "Installation",
+      s1: "Téléchargez le fichier. Si le navigateur avertit, choisissez « Conserver ».",
+      s2: "Ouvrez-le et autorisez l’installation depuis cette source, puis « Installer ».",
+      s3: "Ouvrez l’application, acceptez les conditions, puis ajoutez votre compte.",
       notAndroid: "Cette application est pour Android uniquement. Ouvrez cette page depuis votre téléphone.",
-      foot: "Application indépendante et non officielle, ni affiliée ni représentative du ministère de l’Enseignement supérieur ou de l’Office national des œuvres universitaires."
+      foot: "Application indépendante, non officielle."
     },
     en: {
       name: "Meal Booking", tagline: "Books your university meals automatically every night",
-      dl: "Download the app", ver: "Version {v}", b64: "64-bit", b32: "32-bit",
-      alt64: "Old phone or it won’t install? <a href=\"{u}\">Get the 32-bit version</a>",
-      alt32: "Newer phone? <a href=\"{u}\">Get the 64-bit version</a> (faster)",
-      f1t: "Automatic booking every night", f1d: "Runs in the background, even when the app is closed.",
-      f2t: "Your data stays on your phone", f2d: "Your password is encrypted on your phone and sent only to the official service.",
-      f3t: "Updates itself", f3d: "An update card appears inside the app whenever a new version is out.",
-      stepsT: "How to install",
-      s1: "Download the file. If the browser warns you, choose “Keep” or “Download anyway”.",
-      s2: "Open the file, allow installs from this source when your phone asks, then tap “Install”.",
-      s3: "Open “Meal Booking”, read the terms, accept, then add your account.",
-      tgTip: "From Telegram? If the download doesn’t start, open the link in Chrome.",
-      newT: "What’s new",
+      dl: "Download the app", ver: "Version {v}",
+      alt64: "Won’t install? <a href=\"{u}\">Get the 32-bit version</a>",
+      alt32: "Newer phone? <a href=\"{u}\">Get the 64-bit version</a>",
+      f1t: "Automatic booking every night", f2t: "Your data stays on your phone", f3t: "Updates itself",
+      stepsT: "Install",
+      s1: "Download the file. If the browser warns you, choose “Keep”.",
+      s2: "Open it and allow installs from this source, then tap “Install”.",
+      s3: "Open the app, accept the terms, then add your account.",
       notAndroid: "This app is for Android phones only. Open this page from your phone.",
-      foot: "Independent, unofficial app — not affiliated with or representing the Ministry of Higher Education or the National Office of University Services."
+      foot: "Independent, unofficial app."
     }
   };
 
@@ -225,13 +197,6 @@ window.RELEASE = {"build": 4, "versionName": "1.2.1", "minBuild": 4, "notes": {"
   try { var saved = localStorage.getItem("lang"); if (saved && T[saved]) lang = saved; } catch (e) {}
   var q = /[?&]lang=(ar|fr|en)\b/.exec(location.search); if (q) lang = q[1];
 
-  function fmtDate(iso) {
-    try {
-      var loc = lang === "ar" ? "ar-DZ-u-nu-latn" : lang === "fr" ? "fr-FR" : "en-GB";
-      return new Date(iso + "T12:00:00").toLocaleDateString(loc, { day: "numeric", month: "long", year: "numeric" });
-    } catch (e) { return iso; }
-  }
-
   function render() {
     var t = T[lang], is32 = bits === 32, main = is32 ? a32 : a64, alt = is32 ? a64 : a32;
     document.documentElement.lang = lang;
@@ -243,13 +208,8 @@ window.RELEASE = {"build": 4, "versionName": "1.2.1", "minBuild": 4, "notes": {"
     $("dl").href = main.url;
     $("mV").textContent = t.ver.replace("{v}", R.versionName);
     $("mS").textContent = mb(main.size) + " MB";
-    $("mB").textContent = is32 ? t.b32 : t.b64;
-    $("mD").textContent = fmtDate(R.released);
     $("alt").innerHTML = (is32 ? t.alt32 : t.alt64).replace("{u}", alt.url);
-    ["f1t", "f1d", "f2t", "f2d", "f3t", "f3d", "stepsT", "s1", "s2", "s3", "tgTip", "newT", "foot"].forEach(function (k) { $(k).textContent = t[k]; });
-    var notes = (R.notes && (R.notes[lang] || R.notes.ar)) || "";
-    $("notes").textContent = notes;
-    $("newCard").classList.toggle("hide", !notes);
+    ["f1t", "f2t", "f3t", "stepsT", "s1", "s2", "s3", "foot"].forEach(function (k) { $(k).textContent = t[k]; });
     var android = /Android/i.test(navigator.userAgent);
     $("notice").style.display = android ? "none" : "block";
     $("notice").textContent = t.notAndroid;
